@@ -1,0 +1,29 @@
+.footer {
+    margin-top: 5px;
+    margin-left:49%; 
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    height: 80px;
+    background-color: inherit;
+}
+
+.footer-link {
+    color: black;
+    font-size: 50px;
+    margin-right: 15px;
+    text-decoration: none; /* Ensure links don’t have underlines */
+}
+
+.footer-link:hover {
+    font-size: 55px;
+    transition: font-size 0.3s ease; /* Smooth transition for font size */
+}
+
+.footer-link.insta:hover {
+    color: red;
+}
+
+.footer-link.linkdln:hover {
+    color: blue;
+}
