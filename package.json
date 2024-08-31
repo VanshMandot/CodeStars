@@ -3,13 +3,13 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-"scripts": {
-  "dev": "concurrently \"npm run update-scoreboard\" \"vite\"",
-  "build": "vite build",
-  "lint": "eslint .",
-  "preview": "vite preview",
-  "update-scoreboard": "node scripts/updateScoreboard.mjs"
-},
+  "scripts": {
+    "dev": "concurrently \"npm run update-scoreboard\" \"vite\"",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "update-scoreboard": "node scripts/updateScoreboard.mjs"
+  },
   "dependencies": {
     "node-fetch": "^3.3.2",
     "react": "^18.3.1",
@@ -27,6 +27,7 @@
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
+    "serve": "^14.2.3",
     "vite": "^5.4.1"
   }
 }
