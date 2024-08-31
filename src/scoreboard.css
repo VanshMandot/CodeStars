@@ -2,7 +2,7 @@
     width: 100%;
     margin-left: 60px;
     transition: 0.3s ease;
-    background-color: #f9f9f9; 
+    background-color: white; 
     color: black; 
 }
 
@@ -61,6 +61,7 @@
     border-radius: 8px;
     height: calc(100vh - 200px);
     overflow: auto;
+    border-bottom: 1px solid #ddd;
 }
 
 .scoreboard-table {
