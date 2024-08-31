@@ -8,6 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "start": "http-server dist",
     "update-scoreboard": "node scripts/updateScoreboard.mjs"
   },
   "dependencies": {
