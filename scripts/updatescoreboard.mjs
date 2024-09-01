@@ -1,16 +1,14 @@
 import fetch from 'node-fetch';
 import fs from 'fs';
 
-
 const getPreviousMondayTimestamp = () => {
     const now = new Date();
     const dayOfWeek = now.getDay();                         // 0 (Sunday) to 6 (Saturday)
     const daysSinceMonday = (dayOfWeek + 6) % 7; 
     const previousMonday = new Date(now.setDate(now.getDate() - daysSinceMonday));
     previousMonday.setHours(0, 0, 0, 0);                    // Start of the day
-    return Math.floor(previousMonday.getTime() / 1000);     // Convert to seconds
+    return Math.floor(previousMonday.getTime() / 1000);
 };
-
 
 const updateScoreboard = async () => {
     try {
@@ -28,19 +26,34 @@ const updateScoreboard = async () => {
                 continue;
             }
 
-            const response = await fetch(`https://codeforces.com/api/user.status?handle=${codeforce_username}`);
-            const data = await response.json();
+            try {
+                const response = await fetch(`https://codeforces.com/api/user.status?handle=${codeforce_username}`, {
+                    headers: {
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36'
+                    }
+                });
 
-            if (data.status !== 'OK') {
-                console.error(`API request failed for user ${codeforce_username}: ${data.status}`);
-                continue;
+                if (!response.ok) {
+                    console.error(`API request failed for user ${codeforce_username}: ${response.status} ${response.statusText}`);
+                    continue;
+                }
+
+                const data = await response.json();
+
+                if (data.status !== 'OK') {
+                    console.error(`API request failed for user ${codeforce_username}: ${data.status}`);
+                    continue;
+                }
+
+                const problemsSolvedSincePreviousMonday = data.result.filter(submission => {
+                    return submission.creationTimeSeconds >= previousMondayTimestamp;
+                }).length;
+
+                user.Solved = problemsSolvedSincePreviousMonday;
+
+            } catch (fetchError) {
+                console.error(`Error fetching data for user ${codeforce_username}:`, fetchError);
             }
-
-            const problemsSolvedSincePreviousMonday = data.result.filter(submission => {
-                return submission.creationTimeSeconds >= previousMondayTimestamp;
-            }).length;
-
-            user.Solved = problemsSolvedSincePreviousMonday;
         }
 
         fs.writeFileSync(scoreboardFilePath, JSON.stringify(scoreboard, null, 2));
@@ -49,6 +62,6 @@ const updateScoreboard = async () => {
     }
 };
 
-setInterval(updateScoreboard, 2*60*1000);
+setInterval(updateScoreboard, 5 * 60 * 1000); 
 
-updateScoreboard();
+updateScoreboard(); 
